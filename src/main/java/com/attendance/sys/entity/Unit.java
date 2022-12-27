@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "section_name")
     private String section_name;
     private int grade;
