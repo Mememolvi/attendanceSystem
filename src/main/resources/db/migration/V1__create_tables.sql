@@ -1,17 +1,17 @@
 create table application_user (
-    id int not null,
+    id int identity not null ,
     email varchar(255) not null,
     password varchar(255) not null,
     role varchar(16) not null
 );
 create table unit (
-    id int not null,
+    id int identity not null,
     section_name varchar(30) not null,
     grade int not null
 );
 
 create table student (
-    id int not null,
+    id int identity not null,
     name varchar(50) not null,
     email varchar(50) not null,
     unit_id int not null, -- fk
@@ -19,7 +19,7 @@ create table student (
 );
 
 create table attendance_record (
-    id int not null,
+    id int identity not null,
     student_id int not null, --fk
     date_of_record date not null,
     is_present bit not null
@@ -45,3 +45,6 @@ FOREIGN KEY (unit_id) REFERENCES unit(id);
 ALTER TABLE attendance_record
 ADD CONSTRAINT FK_attendance_record
 FOREIGN KEY (student_id) REFERENCES student(id);
+
+ALTER TABLE unit
+ADD CONSTRAINT unit_unique UNIQUE (section_name, grade);

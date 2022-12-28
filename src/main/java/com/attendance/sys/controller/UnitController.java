@@ -1,14 +1,12 @@
 package com.attendance.sys.controller;
 
-import com.attendance.sys.entity.Unit;
+import com.attendance.sys.dto.UnitDTO;
 import com.attendance.sys.service.UnitService;
+import com.attendance.sys.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/attendance-sys")
@@ -18,10 +16,28 @@ public class UnitController {
     UnitService unitService;
 
     @CrossOrigin
-    @PostMapping("/create-unit")
-    public ResponseEntity<?> createNewUnit() {
-        Unit unit = Unit.builder().grade(1).section_name("Green").build();
-        unitService.saveUnit(unit);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
+    @PostMapping("/createUnit")
+    public ResponseEntity<?> createNewUnit(@RequestBody UnitDTO unitDTO) {
+        try {
+            unitService.saveUnit(Util.getPopulatedUnit(unitDTO));
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Error");
+
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping("getAll")
+    public ResponseEntity<?> getAllUnits() {
+        try {
+
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(unitService.getAllUnits());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Error");
+
+        }
     }
 }
