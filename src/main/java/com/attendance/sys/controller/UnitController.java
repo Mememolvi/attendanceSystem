@@ -20,23 +20,37 @@ public class UnitController {
     public ResponseEntity<?> createNewUnit(@RequestBody UnitDTO unitDTO) {
         try {
             unitService.saveUnit(Util.getPopulatedUnit(unitDTO));
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Success");
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
 
         }
     }
 
     @CrossOrigin
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public ResponseEntity<?> getAllUnits() {
         try {
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(unitService.getAllUnits());
+            return ResponseEntity.status(HttpStatus.OK).body(unitService.getAllUnits());
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+
+        }
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/delete/{sectionName}/{grade}")
+    public ResponseEntity<?> deleteUnit(@PathVariable String sectionName, @PathVariable int grade) {
+        try {
+
+            unitService.deleteBySectionNameAndGrade(sectionName,grade);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(sectionName+" "+grade);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
 
         }
     }

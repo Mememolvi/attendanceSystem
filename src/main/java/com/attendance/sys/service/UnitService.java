@@ -21,5 +21,10 @@ public class UnitService {
         return unitRepository.findAll();
     }
 
+    public void deleteBySectionNameAndGrade(String sectionName ,int grade){
+        unitRepository.deleteBySectionNameAndGrade(sectionName,grade);
+    };
+
+
 
 }
